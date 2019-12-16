@@ -3,7 +3,7 @@ node {
     def dockerImage
     def dockerImageName = "intercorp"
     stage('Preparation') {
-        git branch: 'pipeline', credentialsId: '2fa742ec-da4c-4f61-a305-dae412181cd8', url: 'https://github.com/vimero/intercorp'
+        git branch: 'master', credentialsId: '2fa742ec-da4c-4f61-a305-dae412181cd8', url: 'https://github.com/vimero/intercorp'
         mvnHome = tool 'M3'
     }
     stage('Build') {
