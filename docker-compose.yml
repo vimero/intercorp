@@ -1,0 +1,36 @@
+version: "3.0"
+
+services:
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: intercorp
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: 123456
+
+  app:
+    image: intercorp:latest
+    ports:
+      - "8084:8080"
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_PROFILES_ACTIVE: cloud
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/intercorp?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123456
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    volumes:
+      - ./api.yaml:/api.yaml
+    environment:
+      SWAGGER_JSON: /api.yaml
+    ports:
+      - "8085:8080"
