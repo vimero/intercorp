@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static java.util.stream.Collectors.toList;
@@ -39,21 +40,41 @@ public class CustomerService {
         entity.setDateBirthday(LocalDate.parse(data.getDateBirthday()));
         entity.setAge(data.getAge());
         entity.setDateCreated(LocalDateTime.now());
-
+        entity.setDateDeath(getDateDeath(data.getAge()));
         customerRepository.save(entity);
 
         return new ResponseACK();
+    }
+
+    public CustomerResource findById(String id){
+        Optional<Customer> entity = customerRepository.findById(id);
+        if( entity.isPresent() ){
+            return new CustomerResource(
+                    entity.get().getId(),
+                    entity.get().getFirstName(),
+                    entity.get().getLastName(),
+                    entity.get().getAge(),
+                    entity.get().getDateBirthday().toString(),
+                    entity.get().getDateDeath().toString(),
+                    entity.get().getDateCreated().toString(),
+                    entity.get().getDateUpdated() != null ? entity.get().getDateUpdated().toString() : "");
+        }else{
+            return  null;
+        }
     }
 
     public ResponseList<CustomerResource> getList(){
         List<Customer> customers = customerRepository.findAll();
         List<CustomerResource> list = customers.stream().map(
                 customer -> new CustomerResource(
+                        customer.getId(),
                         customer.getFirstName(),
                         customer.getLastName(),
                         customer.getAge(),
                         customer.getDateBirthday().toString(),
-                        getDateDeath(customer.getAge()))).collect(toList());
+                        customer.getDateDeath().toString(),
+                        customer.getDateCreated().toString(),
+                        customer.getDateUpdated() != null ? customer.getDateUpdated().toString() : "")).collect(toList());
 
         return new ResponseList<>(list);
     }
@@ -75,12 +96,12 @@ public class CustomerService {
         return Math.sqrt ( sum / ( double ) n );
     }
 
-    private String getDateDeath(Integer age){
+    private LocalDate getDateDeath(Integer age){
         long minDay = LocalDate.now().toEpochDay();
         long maxDay = LocalDate.now().toEpochDay() + delta(age);
         long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
         LocalDate randomDate = LocalDate.ofEpochDay(randomDay);
-        return randomDate.toString();
+        return randomDate;
     }
 
     private int delta(Integer age){

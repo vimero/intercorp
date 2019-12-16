@@ -26,6 +26,11 @@ public class CustomerController {
         return ResponseEntity.ok(service.getList());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity findById(@PathVariable String id){
+        return ResponseEntity.ok(service.findById(id));
+    }
+
     @PostMapping
     public ResponseEntity save(@RequestBody CustomerData data){
         ResponseACK resource = service.save(data);

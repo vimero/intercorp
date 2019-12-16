@@ -26,6 +26,7 @@ public class Customer {
     private String lastName;
     private Integer age;
     private LocalDate dateBirthday;
+    private LocalDate dateDeath;
     private LocalDateTime dateCreated;
     private LocalDateTime dateUpdated;
 
@@ -67,6 +68,14 @@ public class Customer {
 
     public void setDateBirthday(LocalDate dateBirthday) {
         this.dateBirthday = dateBirthday;
+    }
+
+    public LocalDate getDateDeath() {
+        return dateDeath;
+    }
+
+    public void setDateDeath(LocalDate dateDeath) {
+        this.dateDeath = dateDeath;
     }
 
     public LocalDateTime getDateCreated() {

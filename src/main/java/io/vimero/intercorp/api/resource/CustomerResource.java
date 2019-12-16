@@ -7,18 +7,33 @@ package io.vimero.intercorp.api.resource;
 
 public class CustomerResource {
 
+    private String id;
     private String firstName;
     private String lastName;
     private Integer age;
     private String dateBirthday;
     private String dateDeath;
+    private String dateCreated;
+    private String dateUpdated;
 
-    public CustomerResource(String firstName, String lastName, Integer age, String dateBirthday, String dateDeath) {
+    public CustomerResource(String id,String firstName, String lastName, Integer age, String dateBirthday,
+                            String dateDeath, String dateCreated, String dateUpdated) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.dateBirthday = dateBirthday;
         this.dateDeath = dateDeath;
+        this.dateCreated = dateCreated;
+        this.dateUpdated = dateUpdated;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -59,5 +74,21 @@ public class CustomerResource {
 
     public void setDateDeath(String dateDeath) {
         this.dateDeath = dateDeath;
+    }
+
+    public String getDateUpdated() {
+        return dateUpdated;
+    }
+
+    public void setDateUpdated(String dateUpdated) {
+        this.dateUpdated = dateUpdated;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
     }
 }
